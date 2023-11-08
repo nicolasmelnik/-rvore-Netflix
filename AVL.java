@@ -1,17 +1,3 @@
-// Nome dos Integrantes:
-// Caio Alexandre V.B. de Andrade, TIA - 32229690.
-// Diego Oliveira Aluizio, TIA - 32247591.
-// Nicolas Fernandes Melnik, TIA - 32241720.
-
-// Referências:
-// Lab1c feito por nós.
-// Material do moodle sobre Herança. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=977139.
-// Material do moodle sobre árvores binárias. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=986864.
-// Material do moodle sobre árvore binária de busca. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=993583.
-// Material do moodle sobre árvore AVL. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=997342.
-// Algoritmos de busca, inserção e remoção de nós em uma BST. Disponíevem em: https://graduacao.mackenzie.br/mod/assign/view.php?id=995146.
-// How to print binary tree diagram in Java. Disponível em: https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java.
-
 public class AVL extends BST {
 
     public AVL() {
@@ -27,7 +13,7 @@ public class AVL extends BST {
     }
 
     private Node rotateLeft(Node root) {
-
+        // Implementação da rotação à esquerda para objetos ProgramaNetflix
         Node right = root.getRight();
         right.setParent(root.getParent());
         root.setRight(right.getLeft());
@@ -40,10 +26,8 @@ public class AVL extends BST {
         root.setParent(right);
 
         if (right.getParent() != null) {
-
             if (right.getParent().getRight() == root) {
                 right.getParent().setRight(right);
-
             } else if (right.getParent().getLeft() == root) {
                 right.getParent().setLeft(right);
             }
@@ -59,7 +43,7 @@ public class AVL extends BST {
     }
 
     private Node rotateRight(Node root) {
-
+        // Implementação da rotação à direita para objetos ProgramaNetflix
         Node left = root.getLeft();
         left.setParent(root.getParent());
         root.setLeft(left.getRight());
@@ -72,10 +56,8 @@ public class AVL extends BST {
         root.setParent(left);
 
         if (left.getParent() != null) {
-
             if (left.getParent().getRight() == root) {
                 left.getParent().setRight(left);
-
             } else if (left.getParent().getLeft() == root) {
                 left.getParent().setLeft(left);
             }
@@ -91,6 +73,7 @@ public class AVL extends BST {
     }
 
     private Node rotateLeftRight(Node root) {
+        // Implementação da rotação esquerda-direita para objetos ProgramaNetflix
         root.setLeft(rotateLeft(root.getLeft()));
         return rotateRight(root);
     }
@@ -100,32 +83,26 @@ public class AVL extends BST {
     }
 
     private Node rotateRightLeft(Node root) {
+        // Implementação da rotação direita-esquerda para objetos ProgramaNetflix
         root.setRight(rotateRight(root.getRight()));
         return rotateLeft(root);
     }
 
     public void balanceNode(Node node) {
+        // Implementação para objetos ProgramaNetflix
         node.updateBalanceFactor();
         int balanceFactor = node.getBalanceFactor();
 
         if (balanceFactor > 1) {
-            // Rotação à esquerda ou rotação esquerda-direita
             if (node.getRight().getBalanceFactor() < 0) {
-                // Rotação direita no filho direito e, em seguida, rotação à esquerda no nó
-                // atual
                 rotateRightLeft(node);
             } else {
-                // Rotação à esquerda no nó atual
                 rotateLeft(node);
             }
         } else if (balanceFactor < -1) {
-            // Rotação à direita ou rotação direita-esquerda
             if (node.getLeft().getBalanceFactor() > 0) {
-                // Rotação esquerda no filho esquerdo e, em seguida, rotação à direita no nó
-                // atual
                 rotateLeftRight(node);
             } else {
-                // Rotação à direita no nó atual
                 rotateRight(node);
             }
         }
@@ -136,16 +113,19 @@ public class AVL extends BST {
         }
     }
 
-    public void insert(int data) {
-        Node node = new Node(data);
+    public void insert(ProgramaNetflix programa) {
+        // Implementação para objetos ProgramaNetflix
+        Node node = new Node(programa);
         insert(this.root, node);
     }
 
     private void insert(Node auxiliar, Node node) {
+        // Implementação para objetos ProgramaNetflix
         if (auxiliar == null) {
             this.root = node;
         } else {
-            if (node.getData() < auxiliar.getData()) {
+            int compareResult = Integer.compare(node.getData().getId(), auxiliar.getData().getId());
+            if (compareResult < 0) {
                 if (auxiliar.getLeft() == null) {
                     auxiliar.setLeft(node);
                     node.setParent(auxiliar);
@@ -153,7 +133,7 @@ public class AVL extends BST {
                 } else {
                     insert(auxiliar.getLeft(), node);
                 }
-            } else if (node.getData() > auxiliar.getData()) {
+            } else if (compareResult > 0) {
                 if (auxiliar.getRight() == null) {
                     auxiliar.setRight(node);
                     node.setParent(auxiliar);
@@ -162,56 +142,55 @@ public class AVL extends BST {
                     insert(auxiliar.getRight(), node);
                 }
             } else {
-                System.out.println("Não é possível inserir pois a chave '" + node.getData() + "' já existe!");
+                System.out.println("Não é possível inserir pois a chave '" + node.getData().getId() + "' já existe!");
             }
         }
     }
 
-    public void remove(int data) {
-        remove(this.root, data);
+    public void remove(ProgramaNetflix programa) {
+        // Implementação para objetos ProgramaNetflix
+        remove(this.root, programa);
     }
 
-    private void remove(Node NodeAtual, int data) {
+    private void remove(Node NodeAtual, ProgramaNetflix programa) {
+        // Implementação para objetos ProgramaNetflix
         if (NodeAtual == null) {
             return;
         } else {
-            if (NodeAtual.getData() > data) {
-                remove(NodeAtual.getLeft(), data);
-            } else if (NodeAtual.getData() < data) {
-                remove(NodeAtual.getRight(), data);
-            } else if (NodeAtual.getData() == data) {
+            int compareResult = Integer.compare(programa.getId(), NodeAtual.getData().getId());
+            if (compareResult < 0) {
+                remove(NodeAtual.getLeft(), programa);
+            } else if (compareResult > 0) {
+                remove(NodeAtual.getRight(), programa);
+            } else if (compareResult == 0) {
                 removerNoEncontrado(NodeAtual);
             }
         }
     }
 
     private void removerNoEncontrado(Node node) {
+        // Implementação para objetos ProgramaNetflix
         Node r;
         if (node.getLeft() == null || node.getRight() == null) {
-
             if (node.getParent() == null) {
                 this.root = null;
                 node = null;
                 return;
             }
             r = node;
-
         } else {
             r = findPredecessor(node.getData());
             node.setData(r.getData());
         }
-
         Node p;
         if (r.getLeft() != null) {
             p = r.getLeft();
         } else {
             p = r.getRight();
         }
-
         if (p != null) {
             p.setParent(r.getParent());
         }
-
         if (r.getParent() == null) {
             this.root = p;
         } else {

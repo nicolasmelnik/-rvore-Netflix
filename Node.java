@@ -14,40 +14,40 @@
 
 public class Node {
 
-	private int data;
+	private ProgramaNetflix data;
 	private Node parent;
 	private Node left;
 	private Node right;
 	private int balanceFactor;
 
 	public Node() {
-		data = 0;
+		data = null;
 		balanceFactor = 0;
 	}
 
-	public Node(int data) {
+	public Node(ProgramaNetflix data) {
 		this.data = data;
 	}
 
-	public Node(int data, Node parent) {
-		this.data = data;
-		this.parent = parent;
-		balanceFactor = 0;
-	}
-
-	public Node(int data, Node parent, Node left, Node right) {
+	public Node(ProgramaNetflix data, Node parent) {
 		this.data = data;
 		this.parent = parent;
-		this.left = null;
-		this.right = null;
 		balanceFactor = 0;
 	}
 
-	public int getData() {
+	public Node(ProgramaNetflix data, Node parent, Node left, Node right) {
+		this.data = data;
+		this.parent = parent;
+		this.left = left;
+		this.right = right;
+		balanceFactor = 0;
+	}
+
+	public ProgramaNetflix getData() {
 		return data;
 	}
 
-	public void setData(int data) {
+	public void setData(ProgramaNetflix data) {
 		this.data = data;
 	}
 

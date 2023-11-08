@@ -1,17 +1,3 @@
-// Nome dos Integrantes:
-// Caio Alexandre V.B. de Andrade, TIA - 32229690.
-// Diego Oliveira Aluizio, TIA - 32247591.
-// Nicolas Fernandes Melnik, TIA - 32241720.
-
-// Referências:
-// Lab1c feito por nós.
-// Material do moodle sobre Herança. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=977139.
-// Material do moodle sobre árvores binárias. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=986864.
-// Material do moodle sobre árvore binária de busca. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=993583.
-// Material do moodle sobre árvore AVL. Disponível em: https://graduacao.mackenzie.br/mod/resource/view.php?id=997342.
-// Algoritmos de busca, inserção e remoção de nós em uma BST. Disponíevem em: https://graduacao.mackenzie.br/mod/assign/view.php?id=995146.
-// How to print binary tree diagram in Java. Disponível em: https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java.
-
 public class BinaryTree {
 
     protected Node root;
@@ -130,9 +116,8 @@ public class BinaryTree {
             sb.append(prefix);
             sb.append(isRight ? " /" : " \\");
             sb.append("----- ");
-            // O número -9999.8956 foi escolhido so pra formatar o print, já que é bem
-            // dificil aparecer um nó com exatamente esse valor
-            sb.append(node.getData() != -9999.8956 ? Integer.toString(node.getData()) : "<null>");
+            // Use os getters do objeto ProgramaNetflix
+            sb.append(node.getData() != null ? Integer.toString(node.getData().getId()) : "<null>");
             sb.append(position); // Mostra se o nó é esquerdo ou direito
             sb.append("\n");
 
