@@ -8,16 +8,16 @@ public class ProgramaNetflix {
     private int runtime;
     private String generos;
     private String productionCountries;
-    private int temporadas;
+    private Double temporadas;
     private String imdbId;
     private double imdbScore;
-    private int imdbVotes;
+    private double imdbVotes;
     private double tmdbPopularity;
     private double tmdbScore;
 
     public ProgramaNetflix(int id, String titulo, String showType, String descricao, int releaseYear,
-            String ageCertification, int runtime, String generos, String productionCountries, int temporadas,
-            String imdbId, double imdbScore, int imdbVotes, double tmdbPopularity, double tmdbScore) {
+            String ageCertification, int runtime, String generos, String productionCountries, double temporadas,
+            String imdbId, double imdbScore, double imdbVotes, double tmdbPopularity, double tmdbScore) {
         this.id = id;
         this.titulo = titulo;
         this.showType = showType;
@@ -72,7 +72,7 @@ public class ProgramaNetflix {
         return productionCountries;
     }
 
-    public int getTemporadas() {
+    public double getTemporadas() {
         return temporadas;
     }
 
@@ -84,7 +84,7 @@ public class ProgramaNetflix {
         return imdbScore;
     }
 
-    public int getImdbVotes() {
+    public double getImdbVotes() {
         return imdbVotes;
     }
 
@@ -129,7 +129,7 @@ public class ProgramaNetflix {
         this.productionCountries = productionCountries;
     }
 
-    public void setTemporadas(int temporadas) {
+    public void setTemporadas(double temporadas) {
         this.temporadas = temporadas;
     }
 
@@ -141,7 +141,7 @@ public class ProgramaNetflix {
         this.imdbScore = imdbScore;
     }
 
-    public void setImdbVotes(int imdbVotes) {
+    public void setImdbVotes(double imdbVotes) {
         this.imdbVotes = imdbVotes;
     }
 
@@ -152,4 +152,24 @@ public class ProgramaNetflix {
     public void setTmdbScore(double tmdbScore) {
         this.tmdbScore = tmdbScore;
     }
+
+    @Override
+    public String toString() {
+        return "Programa Netflix ID: " + id + "\n" +
+                "Título: " + titulo + "\n" +
+                "Tipo: " + showType + "\n" +
+                "Descrição: " + descricao + "\n" +
+                "Ano de Lançamento: " + releaseYear + "\n" +
+                "Classificação Etária: " + ageCertification + "\n" +
+                "Duração: " + runtime + " minutos\n" +
+                "Gêneros: " + generos + "\n" +
+                "Países de Produção: " + productionCountries + "\n" +
+                "Número de Temporadas: " + temporadas + "\n" +
+                "ID do IMDB: " + imdbId + "\n" +
+                "Pontuação do IMDB: " + imdbScore + "\n" +
+                "Votos no IMDB: " + imdbVotes + "\n" +
+                "Popularidade no TMDB: " + tmdbPopularity + "\n" +
+                "Pontuação no TMDB: " + tmdbScore + "\n";
+    }
+
 }
