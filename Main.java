@@ -25,7 +25,8 @@ public class Main {
 
   public static void main(String[] args) {
     // Ler o nome do arquivo de dados do usuário
-    String nomeArquivo = "titles.csv"; // Substitua pelo nome do seu arquivo
+    String nomeArquivo = "titles.csv";
+
     List<ProgramaNetflix> programas = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
@@ -33,8 +34,22 @@ public class Main {
       br.readLine(); // Pule a primeira linha (cabeçalho)
 
       while ((linha = br.readLine()) != null) {
+        boolean placeholder = true;
+        StringBuilder sb = new StringBuilder();
+        sb.append(linha.strip());
+
+        while (placeholder) { // Necessário para ignorar quebra de linha nas colunas description do dataset
+          try {
+            if (sb.toString().charAt(sb.length() - 1) != ',') {
+              Integer.parseInt(String.valueOf(sb.toString().charAt(sb.length() - 1)));
+            }
+            placeholder = false;
+          } catch (Exception e) {
+            sb.append(br.readLine().strip());
+          }
+        }
         // String[] partes = linha.split(",");
-        String[] partes = linha.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        String[] partes = sb.toString().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
         // Controle se a linha possui os 15 campos
 
@@ -62,8 +77,8 @@ public class Main {
           double tmdbScore = Double.parseDouble(partes[14]);
 
           ProgramaNetflix programa = new ProgramaNetflix(id, titulo, showType, descricao, releaseYear,
-              ageCertification, runtime, "generos", "productionCountries", temporadas, imdbId, imdbScore, imdbVotes,
-              tmdbPopularity, tmdbScore);
+              ageCertification, runtime, "generos", "productionCountries", temporadas, imdbId, imdbScore,
+              imdbVotes, tmdbPopularity, tmdbScore);
 
           programas.add(programa);
 
