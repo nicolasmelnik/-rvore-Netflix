@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,25 +52,30 @@ public class Main {
         // String[] partes = linha.split(",");
         String[] partes = sb.toString().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-        // Controle se a linha possui os 15 campos
+        double temporadas;
+        if (partes[2].equalsIgnoreCase("MOVIE")) {
+          temporadas = 0; // Set temporadas to 0 for movies
+          partes[9] = "0";
+        } else {
+          temporadas = Double.parseDouble(partes[9]);
+        }
 
         if (!containsEmpty(partes) && partes.length == 15) {
           int id = Integer.parseInt(removerNaoNumericos(partes[0]));// Tem letra no ID não da pra converter
 
           String titulo = partes[1];
-          System.out.println(titulo);
           String showType = partes[2];
           String descricao = partes[3];
           int releaseYear = Integer.parseInt(partes[4]);
           String ageCertification = partes[5];
           int runtime = Integer.parseInt(partes[6]);
 
-          // List<String> generos = new ArrayList<>();
-          // Adicione os gêneros ao ArrayList generos
-          // List<String> productionCountries = new ArrayList<>();
-          // Adicione os países de produção ao ArrayList productionCountries
+          String partes7Tratada = partes[7].substring(1, partes[7].length() - 1).replaceAll("\\s+", "");
+          List<String> generos = Arrays.asList(partes7Tratada.split(","));
 
-          double temporadas = Double.parseDouble(partes[9]);
+          String partes8Tratada = partes[8].substring(1, partes[8].length() - 1).replaceAll("\\s+", "");
+          List<String> productionCountries = Arrays.asList(partes8Tratada.split(","));
+
           String imdbId = partes[10];
           double imdbScore = Double.parseDouble(partes[11]);
           double imdbVotes = Double.parseDouble(partes[12]);
@@ -77,7 +83,7 @@ public class Main {
           double tmdbScore = Double.parseDouble(partes[14]);
 
           ProgramaNetflix programa = new ProgramaNetflix(id, titulo, showType, descricao, releaseYear,
-              ageCertification, runtime, "generos", "productionCountries", temporadas, imdbId, imdbScore,
+              ageCertification, runtime, generos, productionCountries, temporadas, imdbId, imdbScore,
               imdbVotes, tmdbPopularity, tmdbScore);
 
           programas.add(programa);

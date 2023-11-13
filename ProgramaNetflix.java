@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class ProgramaNetflix {
     private int id;
     private String titulo;
@@ -6,8 +8,8 @@ public class ProgramaNetflix {
     private int releaseYear;
     private String ageCertification;
     private int runtime;
-    private String generos;
-    private String productionCountries;
+    private List<String> generos; // Updated to List<String>
+    private List<String> productionCountries; // Updated to List<String>
     private Double temporadas;
     private String imdbId;
     private double imdbScore;
@@ -16,8 +18,9 @@ public class ProgramaNetflix {
     private double tmdbScore;
 
     public ProgramaNetflix(int id, String titulo, String showType, String descricao, int releaseYear,
-            String ageCertification, int runtime, String generos, String productionCountries, double temporadas,
-            String imdbId, double imdbScore, double imdbVotes, double tmdbPopularity, double tmdbScore) {
+            String ageCertification, int runtime, List<String> generos, List<String> productionCountries,
+            double temporadas, String imdbId, double imdbScore, double imdbVotes, double tmdbPopularity,
+            double tmdbScore) {
         this.id = id;
         this.titulo = titulo;
         this.showType = showType;
@@ -64,11 +67,11 @@ public class ProgramaNetflix {
         return runtime;
     }
 
-    public String getGeneros() {
+    public List<String> getGeneros() {
         return generos;
     }
 
-    public String getProductionCountries() {
+    public List<String> getProductionCountries() {
         return productionCountries;
     }
 
@@ -121,11 +124,11 @@ public class ProgramaNetflix {
         this.runtime = runtime;
     }
 
-    public void setGeneros(String generos) {
+    public void setGeneros(List<String> generos) {
         this.generos = generos;
     }
 
-    public void setProductionCountries(String productionCountries) {
+    public void setProductionCountries(List<String> productionCountries) {
         this.productionCountries = productionCountries;
     }
 
