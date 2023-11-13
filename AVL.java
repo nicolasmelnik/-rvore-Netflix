@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class AVL extends BST {
 
     public AVL() {
@@ -192,5 +195,35 @@ public class AVL extends BST {
             balanceNode(r.getParent());
         }
         r = null;
+    }
+
+    // Consultas:
+
+    public void topTV14CrimeTitles() {
+        List<ProgramaNetflix> topTitles = new ArrayList<>();
+        topTV14CrimeTitles(root, topTitles);
+        displayTopTitles(topTitles, "Top 10 TV-14 Crime Titles:");
+    }
+
+    private void topTV14CrimeTitles(Node node, List<ProgramaNetflix> result) {
+        if (node != null && result.size() < 10) {
+            topTV14CrimeTitles(node.getRight(), result);
+
+            ProgramaNetflix programa = node.getData();
+            if (programa.getAgeCertification().equalsIgnoreCase("TV-14") && programa.getGeneros().contains("crime")) {
+                System.out.println(programa.getTitulo());
+                result.add(programa);
+            }
+
+            topTV14CrimeTitles(node.getLeft(), result);
+        }
+    }
+
+    private void displayTopTitles(List<ProgramaNetflix> titles, String message) {
+        System.out.println(message);
+        for (ProgramaNetflix programa : titles) {
+            System.out.println(programa.getTitulo());
+        }
+        System.out.println();
     }
 }

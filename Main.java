@@ -69,10 +69,10 @@ public class Main {
           String ageCertification = partes[5];
           int runtime = Integer.parseInt(partes[6]);
 
-          String partes7Tratada = partes[7].substring(1, partes[7].length() - 1).replaceAll("\\s+", "");
+          String partes7Tratada = partes[7].replaceAll("[\\[\\]\'\\s]", "");
           List<String> generos = Arrays.asList(partes7Tratada.split(","));
 
-          String partes8Tratada = partes[8].substring(1, partes[8].length() - 1).replaceAll("\\s+", "");
+          String partes8Tratada = partes[8].replaceAll("[\\[\\]\'\\s]", "");
           List<String> productionCountries = Arrays.asList(partes8Tratada.split(","));
 
           String imdbId = partes[10];
@@ -103,5 +103,6 @@ public class Main {
     }
 
     // Realize operações com as árvores, se necessário
+    avl.topTV14CrimeTitles();
   }
 }
