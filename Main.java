@@ -49,7 +49,7 @@ public class Main {
             sb.append(br.readLine().strip());
           }
         }
-        // String[] partes = linha.split(",");
+
         String[] partes = sb.toString().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
         double temporadas;
@@ -61,8 +61,7 @@ public class Main {
         }
 
         if (!containsEmpty(partes) && partes.length == 15) {
-          int id = Integer.parseInt(removerNaoNumericos(partes[0]));// Tem letra no ID não da pra converter
-
+          String id = partes[0];
           String titulo = partes[1];
           String showType = partes[2];
           String descricao = partes[3];
@@ -94,8 +93,6 @@ public class Main {
       e.printStackTrace();
     }
 
-    // Agora você tem a lista de programas Netflix com atributos preenchidos
-
     // Crie as árvores BST e AVL e insira os programas
     BST bst = new BST();
     AVL avl = new AVL();
@@ -106,7 +103,5 @@ public class Main {
     }
 
     // Realize operações com as árvores, se necessário
-
-    // Lembre-se de detalhar no relatório qualquer modificação no dataset.
   }
 }

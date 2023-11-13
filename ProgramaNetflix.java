@@ -1,15 +1,15 @@
 import java.util.List;
 
 public class ProgramaNetflix {
-    private int id;
+    private String id;
     private String titulo;
     private String showType;
     private String descricao;
     private int releaseYear;
     private String ageCertification;
     private int runtime;
-    private List<String> generos; // Updated to List<String>
-    private List<String> productionCountries; // Updated to List<String>
+    private List<String> generos;
+    private List<String> productionCountries;
     private Double temporadas;
     private String imdbId;
     private double imdbScore;
@@ -17,7 +17,7 @@ public class ProgramaNetflix {
     private double tmdbPopularity;
     private double tmdbScore;
 
-    public ProgramaNetflix(int id, String titulo, String showType, String descricao, int releaseYear,
+    public ProgramaNetflix(String id, String titulo, String showType, String descricao, int releaseYear,
             String ageCertification, int runtime, List<String> generos, List<String> productionCountries,
             double temporadas, String imdbId, double imdbScore, double imdbVotes, double tmdbPopularity,
             double tmdbScore) {
@@ -39,7 +39,7 @@ public class ProgramaNetflix {
     }
 
     // Getters
-    public int getId() {
+    public String getId() {
         return id;
     }
 

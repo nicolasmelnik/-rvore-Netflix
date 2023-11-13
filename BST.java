@@ -18,7 +18,7 @@ public class BST extends BinaryTree {
             return null;
         }
 
-        int compareResult = Integer.compare(programa.getId(), node.getData().getId());
+        int compareResult = programa.getId().compareTo(node.getData().getId());
 
         if (compareResult == 0) {
             return node;
@@ -37,7 +37,7 @@ public class BST extends BinaryTree {
         if (node == null) {
             return new Node(programa, parent, null, null);
         }
-        int compareResult = Integer.compare(programa.getId(), node.getData().getId());
+        int compareResult = programa.getId().compareTo(node.getData().getId());
         if (compareResult < 0) {
             parent = node;
             node.setLeft(insert(node.getLeft(), programa, parent));
@@ -60,7 +60,7 @@ public class BST extends BinaryTree {
             System.out.println("Nó a ser removido não encontrado!");
             return node;
         }
-        int compareResult = Integer.compare(programa.getId(), node.getData().getId());
+        int compareResult = programa.getId().compareTo(node.getData().getId());
         if (compareResult < 0) {
             node.setLeft(remove(node.getLeft(), programa));
         } else if (compareResult > 0) {
@@ -97,7 +97,7 @@ public class BST extends BinaryTree {
         Node predecessor = null;
         Node current = root;
         while (current != null) {
-            int compareResult = Integer.compare(programa.getId(), current.getData().getId());
+            int compareResult = programa.getId().compareTo(current.getData().getId());
             if (compareResult < 0) {
                 current = current.getLeft();
             } else if (compareResult > 0) {
@@ -124,7 +124,7 @@ public class BST extends BinaryTree {
         Node successor = null;
         Node current = root;
         while (current != null) {
-            int compareResult = Integer.compare(programa.getId(), current.getData().getId());
+            int compareResult = programa.getId().compareTo(current.getData().getId());
             if (compareResult > 0) {
                 current = current.getRight();
             } else if (compareResult < 0) {

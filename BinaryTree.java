@@ -117,7 +117,7 @@ public class BinaryTree {
             sb.append(isRight ? " /" : " \\");
             sb.append("----- ");
             // Use os getters do objeto ProgramaNetflix
-            sb.append(node.getData() != null ? Integer.toString(node.getData().getId()) : "<null>");
+            sb.append(node.getData() != null ? node.getData().getId() : "<null>");
             sb.append(position); // Mostra se o nó é esquerdo ou direito
             sb.append("\n");
 

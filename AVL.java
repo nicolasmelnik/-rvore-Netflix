@@ -13,7 +13,6 @@ public class AVL extends BST {
     }
 
     private Node rotateLeft(Node root) {
-        // Implementação da rotação à esquerda para objetos ProgramaNetflix
         Node right = root.getRight();
         right.setParent(root.getParent());
         root.setRight(right.getLeft());
@@ -43,7 +42,6 @@ public class AVL extends BST {
     }
 
     private Node rotateRight(Node root) {
-        // Implementação da rotação à direita para objetos ProgramaNetflix
         Node left = root.getLeft();
         left.setParent(root.getParent());
         root.setLeft(left.getRight());
@@ -73,7 +71,6 @@ public class AVL extends BST {
     }
 
     private Node rotateLeftRight(Node root) {
-        // Implementação da rotação esquerda-direita para objetos ProgramaNetflix
         root.setLeft(rotateLeft(root.getLeft()));
         return rotateRight(root);
     }
@@ -83,13 +80,11 @@ public class AVL extends BST {
     }
 
     private Node rotateRightLeft(Node root) {
-        // Implementação da rotação direita-esquerda para objetos ProgramaNetflix
         root.setRight(rotateRight(root.getRight()));
         return rotateLeft(root);
     }
 
     public void balanceNode(Node node) {
-        // Implementação para objetos ProgramaNetflix
         node.updateBalanceFactor();
         int balanceFactor = node.getBalanceFactor();
 
@@ -114,17 +109,15 @@ public class AVL extends BST {
     }
 
     public void insert(ProgramaNetflix programa) {
-        // Implementação para objetos ProgramaNetflix
         Node node = new Node(programa);
         insert(this.root, node);
     }
 
     private void insert(Node auxiliar, Node node) {
-        // Implementação para objetos ProgramaNetflix
         if (auxiliar == null) {
             this.root = node;
         } else {
-            int compareResult = Integer.compare(node.getData().getId(), auxiliar.getData().getId());
+            int compareResult = node.getData().getId().compareTo(auxiliar.getData().getId());
             if (compareResult < 0) {
                 if (auxiliar.getLeft() == null) {
                     auxiliar.setLeft(node);
@@ -148,16 +141,14 @@ public class AVL extends BST {
     }
 
     public void remove(ProgramaNetflix programa) {
-        // Implementação para objetos ProgramaNetflix
         remove(this.root, programa);
     }
 
     private void remove(Node NodeAtual, ProgramaNetflix programa) {
-        // Implementação para objetos ProgramaNetflix
         if (NodeAtual == null) {
             return;
         } else {
-            int compareResult = Integer.compare(programa.getId(), NodeAtual.getData().getId());
+            int compareResult = programa.getId().compareTo(NodeAtual.getData().getId());
             if (compareResult < 0) {
                 remove(NodeAtual.getLeft(), programa);
             } else if (compareResult > 0) {
@@ -169,7 +160,6 @@ public class AVL extends BST {
     }
 
     private void removerNoEncontrado(Node node) {
-        // Implementação para objetos ProgramaNetflix
         Node r;
         if (node.getLeft() == null || node.getRight() == null) {
             if (node.getParent() == null) {
