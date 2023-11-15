@@ -199,31 +199,188 @@ public class AVL extends BST {
 
     // Consultas:
 
-    public void topTV14CrimeTitles() {
+    public void topCrimesAnos2000() {
         List<ProgramaNetflix> topTitles = new ArrayList<>();
-        topTV14CrimeTitles(root, topTitles);
-        displayTopTitles(topTitles, "Top 10 TV-14 Crime Titles:");
+        topCrimesAnos2000(root, topTitles);
+        displayTopTitlesByScore(topTitles, "Top 10 programas de crime anos 2000:");
     }
 
-    private void topTV14CrimeTitles(Node node, List<ProgramaNetflix> result) {
-        if (node != null && result.size() < 10) {
-            topTV14CrimeTitles(node.getRight(), result);
+    private void topCrimesAnos2000(Node node, List<ProgramaNetflix> result) {
+        if (node != null) {
+            topCrimesAnos2000(node.getRight(), result);
 
             ProgramaNetflix programa = node.getData();
-            if (programa.getAgeCertification().equalsIgnoreCase("TV-14") && programa.getGeneros().contains("crime")) {
-                System.out.println(programa.getTitulo());
+            if ((programa.getReleaseYear() >= 2000 && programa.getReleaseYear() < 2010)
+                    && programa.getGeneros().contains("crime")) {
                 result.add(programa);
             }
 
-            topTV14CrimeTitles(node.getLeft(), result);
+            topCrimesAnos2000(node.getLeft(), result);
         }
     }
 
-    private void displayTopTitles(List<ProgramaNetflix> titles, String message) {
+    private void displayTopTitlesByScore(List<ProgramaNetflix> titles, String message) {
         System.out.println(message);
-        for (ProgramaNetflix programa : titles) {
-            System.out.println(programa.getTitulo());
+        // Use o tamanho real da lista ou 10, o que for menor
+        int numTitlesToDisplay = Math.min(titles.size(), 10);
+
+        for (int i = 0; i < numTitlesToDisplay; i++) {
+            ProgramaNetflix maiorNota = titles.get(i);
+            for (ProgramaNetflix programa : titles) {
+                if (programa.getImdbScore() > maiorNota.getImdbScore()) {
+                    maiorNota = programa;
+                }
+            }
+            System.out.println(maiorNota.getTitulo());
+            titles.remove(maiorNota);// Remove o título com a maior nota para evitar repetições
         }
         System.out.println();
     }
+
+    public void topWarProgramsByVotes() {
+        List<ProgramaNetflix> topTitles = new ArrayList<>();
+        topWarProgramsByVotes(root, topTitles);
+        displayTopTitlesByVotes(topTitles, "Top 15 programas do tema 'war' por votos no IMDb:");
+    }
+
+    private void topWarProgramsByVotes(Node node, List<ProgramaNetflix> result) {
+        if (node != null) {
+            topWarProgramsByVotes(node.getRight(), result);
+
+            ProgramaNetflix programa = node.getData();
+            if (programa.getGeneros().contains("war")) {
+                result.add(programa);
+            }
+
+            topWarProgramsByVotes(node.getLeft(), result);
+        }
+    }
+
+    private void displayTopTitlesByVotes(List<ProgramaNetflix> titles, String message) {
+        System.out.println(message);
+        // Use the size of the list or 15, whichever is smaller
+        int numTitlesToDisplay = Math.min(titles.size(), 15);
+
+        for (int i = 0; i < numTitlesToDisplay; i++) {
+            ProgramaNetflix mostVoted = titles.get(0);
+            for (ProgramaNetflix programa : titles) {
+                if (programa.getImdbVotes() > mostVoted.getImdbVotes()) {
+                    mostVoted = programa;
+                }
+            }
+            System.out.println(mostVoted.getTitulo() + " - IMDb Votes: " + mostVoted.getImdbVotes());
+            titles.remove(mostVoted); // Remove the title with the most votes to avoid repetitions
+        }
+        System.out.println();
+    }
+
+    public void topMovies2022ByScore() {
+        List<ProgramaNetflix> topMovies = new ArrayList<>();
+        topMovies2022ByScore(root, topMovies);
+        displayTopMoviesByScore(topMovies, "Top 10 filmes de 2022 por pontuação no IMDb:");
+    }
+
+    private void topMovies2022ByScore(Node node, List<ProgramaNetflix> result) {
+        if (node != null) {
+            topMovies2022ByScore(node.getRight(), result);
+
+            ProgramaNetflix programa = node.getData();
+            if (programa.getShowType().equalsIgnoreCase("MOVIE") && programa.getReleaseYear() == 2022) {
+                result.add(programa);
+            }
+
+            topMovies2022ByScore(node.getLeft(), result);
+        }
+    }
+
+    private void displayTopMoviesByScore(List<ProgramaNetflix> movies, String message) {
+        System.out.println(message);
+        // Use the size of the list or 10, whichever is smaller
+        int numMoviesToDisplay = Math.min(movies.size(), 10);
+
+        for (int i = 0; i < numMoviesToDisplay; i++) {
+            ProgramaNetflix topMovie = movies.get(0);
+            for (ProgramaNetflix movie : movies) {
+                if (movie.getImdbScore() > topMovie.getImdbScore()) {
+                    topMovie = movie;
+                }
+            }
+            System.out.println(topMovie.getTitulo() + " - IMDb Score: " + topMovie.getImdbScore());
+            movies.remove(topMovie); // Remove the movie with the highest score to avoid repetitions
+        }
+        System.out.println();
+    }
+
+    public void topTVShowsByScore() {
+        List<ProgramaNetflix> topTVShows = new ArrayList<>();
+        topTVShowsByScore(root, topTVShows);
+        displayTopTVShowsByScore(topTVShows, "Top 10 programas de TV por pontuação no IMDb:");
+    }
+
+    private void topTVShowsByScore(Node node, List<ProgramaNetflix> result) {
+        if (node != null) {
+            topTVShowsByScore(node.getRight(), result);
+
+            ProgramaNetflix programa = node.getData();
+            if (programa.getShowType().equalsIgnoreCase("TV Show")) {
+                result.add(programa);
+            }
+
+            topTVShowsByScore(node.getLeft(), result);
+        }
+    }
+
+    private void displayTopTVShowsByScore(List<ProgramaNetflix> tvShows, String message) {
+        System.out.println(message);
+        // Use the size of the list or 10, whichever is smaller
+        int numTVShowsToDisplay = Math.min(tvShows.size(), 10);
+
+        for (int i = 0; i < numTVShowsToDisplay; i++) {
+            ProgramaNetflix topTVShow = tvShows.get(0);
+            for (ProgramaNetflix tvShow : tvShows) {
+                if (tvShow.getImdbScore() > topTVShow.getImdbScore()) {
+                    topTVShow = tvShow;
+                }
+            }
+            System.out.println(topTVShow.getTitulo() + " - IMDb Score: " + topTVShow.getImdbScore());
+            tvShows.remove(topTVShow); // Remove the TV show with the highest score to avoid repetitions
+        }
+        System.out.println();
+    }
+
+    public void topOldestPrograms() {
+        List<ProgramaNetflix> oldestPrograms = new ArrayList<>();
+        topOldestPrograms(root, oldestPrograms);
+        displayTopOldestPrograms(oldestPrograms, "Top 10 programas mais antigos:");
+    }
+
+    private void topOldestPrograms(Node node, List<ProgramaNetflix> result) {
+        if (node != null) {
+            topOldestPrograms(node.getRight(), result);
+
+            ProgramaNetflix programa = node.getData();
+            result.add(programa);
+
+            topOldestPrograms(node.getLeft(), result);
+        }
+    }
+
+    private void displayTopOldestPrograms(List<ProgramaNetflix> programs, String message) {
+        System.out.println(message);
+        // Use the size of the list or 10, whichever is smaller
+        int numProgramsToDisplay = Math.min(programs.size(), 10);
+
+        for (int i = 0; i < numProgramsToDisplay; i++) {
+            ProgramaNetflix oldestProgram = programs.get(0);
+            for (ProgramaNetflix program : programs) {
+                if (program.getReleaseYear() < oldestProgram.getReleaseYear()) {
+                    oldestProgram = program;
+                }
+            }
+            System.out.println(oldestProgram.getTitulo() + " - Ano de Lançamento: " + oldestProgram.getReleaseYear());
+            programs.remove(oldestProgram); // Remove the oldest program to avoid repetitions
+        }
+        System.out.println();
+    }
+
 }

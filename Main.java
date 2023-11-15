@@ -103,6 +103,15 @@ public class Main {
     }
 
     // Realize operações com as árvores, se necessário
-    avl.topTV14CrimeTitles();
+    avl.topCrimesAnos2000();
+    System.out.println();
+    avl.topWarProgramsByVotes();
+    System.out.println();
+    avl.topMovies2022ByScore();
+    System.out.println();
+    avl.topTVShowsByScore();
+    System.out.println();
+    avl.topOldestPrograms();
+
   }
 }
