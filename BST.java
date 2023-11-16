@@ -29,6 +29,29 @@ public class BST extends BinaryTree {
         }
     }
 
+    public Node searchAndCountSteps(ProgramaNetflix programa, Integer[] count) {
+        return searchAndCountSteps(root, programa, count);
+    }
+
+    private Node searchAndCountSteps(Node node, ProgramaNetflix programa, Integer[] count) {
+        if (node == null) {
+            System.out.println("Nó não foi encontrado!");
+            return null;
+        }
+
+        count[0]++; // Atualize o valor do contador
+
+        int compareResult = programa.getId().compareTo(node.getData().getId());
+
+        if (compareResult == 0) {
+            return node;
+        } else if (compareResult < 0) {
+            return searchAndCountSteps(node.getLeft(), programa, count);
+        } else {
+            return searchAndCountSteps(node.getRight(), programa, count);
+        }
+    }
+
     public void insert(ProgramaNetflix programa) {
         root = insert(root, programa, null);
     }

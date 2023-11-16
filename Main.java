@@ -113,5 +113,61 @@ public class Main {
     System.out.println();
     avl.topOldestPrograms();
 
+    // Inserindo um novo programa
+    ProgramaNetflix programaNovo = new ProgramaNetflix(
+        "tm987654",
+        "Inception",
+        "MOVIE",
+        "A skilled thief, Cobb, is entrusted with the task of stealing secrets from a person's mind. He must navigate through the layers of reality and dive into the dreams of his targets.",
+        2010,
+        "PG-13",
+        148,
+        Arrays.asList("action", "adventure", "sci-fi"),
+        Arrays.asList("US", "GB"),
+        0.0,
+        "tt1375666",
+        8.8,
+        2000000.0,
+        30.5,
+        8.7);
+
+    // Inserir o novo programa nas árvores
+    bst.insert(programaNovo);
+    avl.insert(programaNovo);
+
+    // Busca na BST
+    Integer[] count = { 0 };
+
+    // Realizar a busca e contar as comparações na BST
+    long startTime = System.nanoTime();
+    Node resultadoBuscaBST = bst.searchAndCountSteps(programaNovo, count);
+    long totalTime = System.nanoTime() - startTime;
+
+    if (resultadoBuscaBST != null) {
+      System.out.println("Achou o programa");
+    } else {
+      System.out.println("Não achou o programa");
+    }
+
+    System.out.println("Número de comparações na BST: " + count[0]);
+    System.out.println("O tempo de busca na BST é de " + totalTime + " in nano seconds");
+    System.out.println();
+
+    // Busca na AVL
+    count[0] = 0;
+
+    // Realizar a busca e contar as comparações na AVL
+    startTime = System.nanoTime();
+    Node resultadoBuscaAVL = avl.searchAndCountSteps(programaNovo, count);
+    totalTime = System.nanoTime() - startTime;
+
+    if (resultadoBuscaAVL != null) {
+      System.out.println("Achou o programa");
+    } else {
+      System.out.println("Não achou o programa.");
+    }
+
+    System.out.println("Número de comparações na AVL: " + count[0]);
+    System.out.println("O tempo de busca na AVL é de " + totalTime + " in nano seconds");
   }
 }
