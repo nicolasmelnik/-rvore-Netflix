@@ -170,5 +170,9 @@ public class Main {
     System.out.println("Número de comparações na AVL: " + count[0]);
     System.out.println("O tempo de busca na AVL é de " + totalTime + " in nano seconds");
 
+    // Remover o programa das árvores
+    bst.remove("tm987654");
+    avl.remove("tm987654");
+
   }
 }

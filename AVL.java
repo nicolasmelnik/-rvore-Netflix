@@ -143,21 +143,21 @@ public class AVL extends BST {
         }
     }
 
-    public void remove(ProgramaNetflix programa) {
-        remove(this.root, programa);
+    public void remove(String programaId) {
+        remove(this.root, programaId);
     }
 
-    private void remove(Node NodeAtual, ProgramaNetflix programa) {
-        if (NodeAtual == null) {
+    private void remove(Node node, String programaId) {
+        if (node == null) {
             return;
         } else {
-            int compareResult = programa.getId().compareTo(NodeAtual.getData().getId());
+            int compareResult = programaId.compareTo(node.getData().getId());
             if (compareResult < 0) {
-                remove(NodeAtual.getLeft(), programa);
+                remove(node.getLeft(), programaId);
             } else if (compareResult > 0) {
-                remove(NodeAtual.getRight(), programa);
+                remove(node.getRight(), programaId);
             } else if (compareResult == 0) {
-                removerNoEncontrado(NodeAtual);
+                removerNoEncontrado(node);
             }
         }
     }
