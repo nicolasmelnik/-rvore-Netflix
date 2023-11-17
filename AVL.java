@@ -208,14 +208,13 @@ public class AVL extends BST {
     private void topCrimesAnos2000(Node node, List<ProgramaNetflix> result) {
         if (node != null) {
             topCrimesAnos2000(node.getRight(), result);
-
+            topCrimesAnos2000(node.getLeft(), result);
             ProgramaNetflix programa = node.getData();
             if ((programa.getReleaseYear() >= 2000 && programa.getReleaseYear() < 2010)
                     && programa.getGeneros().contains("crime")) {
                 result.add(programa);
             }
 
-            topCrimesAnos2000(node.getLeft(), result);
         }
     }
 
@@ -245,13 +244,12 @@ public class AVL extends BST {
 
     private void topWarProgramsByVotes(Node node, List<ProgramaNetflix> result) {
         if (node != null) {
-            topWarProgramsByVotes(node.getRight(), result);
 
             ProgramaNetflix programa = node.getData();
             if (programa.getGeneros().contains("war")) {
                 result.add(programa);
             }
-
+            topWarProgramsByVotes(node.getRight(), result);
             topWarProgramsByVotes(node.getLeft(), result);
         }
     }
