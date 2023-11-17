@@ -322,7 +322,7 @@ public class AVL extends BST {
             topTVShowsByScore(node.getRight(), result);
 
             ProgramaNetflix programa = node.getData();
-            if (programa.getShowType().equalsIgnoreCase("TV Show")) {
+            if (programa.getShowType().equalsIgnoreCase("SHOW")) {
                 result.add(programa);
             }
 

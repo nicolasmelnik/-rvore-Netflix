@@ -169,5 +169,6 @@ public class Main {
 
     System.out.println("Número de comparações na AVL: " + count[0]);
     System.out.println("O tempo de busca na AVL é de " + totalTime + " in nano seconds");
+
   }
 }
