@@ -174,5 +174,9 @@ public class Main {
     bst.remove("tm987654");
     avl.remove("tm987654");
 
+    // Imprima novamente a altura das árvores após inserção e busca
+    System.out.println("Altura da árvore BST após inserção e busca: " + bst.getHeight());
+    System.out.println("Altura da árvore AVL após inserção e busca: " + avl.getHeight());
+
   }
 }
