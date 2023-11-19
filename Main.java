@@ -184,8 +184,11 @@ public class Main {
           String[] paisesArray = sc.nextLine().split(",");
           List<String> paises = Arrays.asList(paisesArray);
 
-          System.out.print("Informe o número de temporadas ");
-          int temporadas = sc.nextInt();
+          int temporadas = 0;
+          if (tipo == "MOVIE") {
+            System.out.print("Informe o número de temporadas: ");
+            temporadas = sc.nextInt();
+          }
 
           System.out.print("Informe o ID IMDb: ");
           String idImdb = sc.next();
