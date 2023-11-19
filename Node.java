@@ -1,3 +1,8 @@
+// Nome dos Integrantes:
+// Caio Alexandre V.B. de Andrade, TIA - 32229690.
+// Diego Oliveira Aluizio, TIA - 32247591.
+// Nicolas Fernandes Melnik, TIA - 32241720.
+
 public class Node {
 
 	private ProgramaNetflix data;
@@ -137,25 +142,12 @@ public class Node {
 		return height + 1;
 	}
 
-	public static void printAllNodeInfo(Node node) {
-		if (node != null) {
-			System.out.print("Node - [data = " + node.getData() +
-					", parent = " + (node.getParent() != null ? node.getParent().getData() : "null") +
-					", left = " + (node.getLeft() != null ? node.getLeft().getData() : "null") +
-					", right = " + (node.getRight() != null ? node.getRight().getData() : "null") +
-					", raiz = " + node.isRoot() +
-					", folha = " + node.isLeaf() +
-					", grau = " + node.getDegree() +
-					", nível = " + node.getLevel() +
-					", altura = " + node.getHeight() +
-					", fb = " + node.getBalanceFactor() + "]\n");
-
-			printAllNodeInfo(node.getLeft());
-			printAllNodeInfo(node.getRight());
+	@Override
+	public String toString() {
+		if (data != null) {
+			return "Programa buscado: " + data.getTitulo();
+		} else {
+			return "";
 		}
-	}
-
-	public static void printTreeInfo(BinaryTree tree) {
-		printAllNodeInfo(tree.getRoot());
 	}
 }

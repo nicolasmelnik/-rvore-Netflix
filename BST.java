@@ -1,3 +1,8 @@
+// Nome dos Integrantes:
+// Caio Alexandre V.B. de Andrade, TIA - 32229690.
+// Diego Oliveira Aluizio, TIA - 32247591.
+// Nicolas Fernandes Melnik, TIA - 32241720.
+
 public class BST extends BinaryTree {
 
     public BST() {
@@ -29,26 +34,25 @@ public class BST extends BinaryTree {
         }
     }
 
-    public Node searchAndCountSteps(ProgramaNetflix programa, Integer[] count) {
-        return searchAndCountSteps(root, programa, count);
+    public Node searchAndCountSteps(String Id, Integer[] count) {
+        return searchAndCountSteps(root, Id, count);
     }
 
-    private Node searchAndCountSteps(Node node, ProgramaNetflix programa, Integer[] count) {
+    private Node searchAndCountSteps(Node node, String Id, Integer[] count) {
         if (node == null) {
-            System.out.println("Nó não foi encontrado!");
             return null;
         }
 
         count[0]++; // Atualize o valor do contador
 
-        int compareResult = programa.getId().compareTo(node.getData().getId());
+        int compareResult = Id.compareTo(node.getData().getId());
 
         if (compareResult == 0) {
             return node;
         } else if (compareResult < 0) {
-            return searchAndCountSteps(node.getLeft(), programa, count);
+            return searchAndCountSteps(node.getLeft(), Id, count);
         } else {
-            return searchAndCountSteps(node.getRight(), programa, count);
+            return searchAndCountSteps(node.getRight(), Id, count);
         }
     }
 
@@ -80,7 +84,7 @@ public class BST extends BinaryTree {
 
     private Node remove(Node node, String programaId) {
         if (node == null) {
-            System.out.println("Nó a ser removido não encontrado!");
+            System.out.println("Programa a ser removido não encontrado!");
             return node;
         }
         int compareResult = programaId.compareTo(node.getData().getId());

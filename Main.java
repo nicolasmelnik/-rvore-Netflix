@@ -1,11 +1,18 @@
+// Nome dos Integrantes:
+// Caio Alexandre V.B. de Andrade, TIA - 32229690.
+// Diego Oliveira Aluizio, TIA - 32247591.
+// Nicolas Fernandes Melnik, TIA - 32241720.
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,190 +34,259 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    // Ler o nome do arquivo de dados do usuário
-    String nomeArquivo = "titles.csv";
 
-    List<ProgramaNetflix> programas = new ArrayList<>();
-
-    try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
-      String linha;
-      br.readLine(); // Pule a primeira linha (cabeçalho)
-
-      while ((linha = br.readLine()) != null) {
-        boolean placeholder = true;
-        StringBuilder sb = new StringBuilder();
-        sb.append(linha.strip());
-
-        while (placeholder) { // Necessário para ignorar quebra de linha nas colunas description do dataset
-          try {
-            if (sb.toString().charAt(sb.length() - 1) != ',') {
-              Integer.parseInt(String.valueOf(sb.toString().charAt(sb.length() - 1)));
-            }
-            placeholder = false;
-          } catch (Exception e) {
-            sb.append(br.readLine().strip());
-          }
-        }
-
-        String[] partes = sb.toString().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
-        double temporadas;
-        if (partes[2].equalsIgnoreCase("MOVIE")) {
-          temporadas = 0; // Set temporadas to 0 for movies
-          partes[9] = "0";
-        } else {
-          temporadas = Double.parseDouble(partes[9]);
-        }
-
-        if (!containsEmpty(partes) && partes.length == 15) {
-          String id = partes[0];
-          String titulo = partes[1];
-          String showType = partes[2];
-          String descricao = partes[3];
-          int releaseYear = Integer.parseInt(partes[4]);
-          String ageCertification = partes[5];
-          int runtime = Integer.parseInt(partes[6]);
-
-          String partes7Tratada = partes[7].replaceAll("[\\[\\]\'\\s]", "");
-          List<String> generos = Arrays.asList(partes7Tratada.split(","));
-
-          String partes8Tratada = partes[8].replaceAll("[\\[\\]\'\\s]", "");
-          List<String> productionCountries = Arrays.asList(partes8Tratada.split(","));
-
-          String imdbId = partes[10];
-          double imdbScore = Double.parseDouble(partes[11]);
-          double imdbVotes = Double.parseDouble(partes[12]);
-          double tmdbPopularity = Double.parseDouble(partes[13]);
-          double tmdbScore = Double.parseDouble(partes[14]);
-
-          ProgramaNetflix programa = new ProgramaNetflix(id, titulo, showType, descricao, releaseYear,
-              ageCertification, runtime, generos, productionCountries, temporadas, imdbId, imdbScore,
-              imdbVotes, tmdbPopularity, tmdbScore);
-
-          programas.add(programa);
-
-        }
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    // Crie as árvores BST e AVL e insira os programas
+    Scanner sc = new Scanner(System.in);
+    int selection = 0;
     BST bst = new BST();
     AVL avl = new AVL();
 
-    for (ProgramaNetflix programa : programas) {
-      bst.insert(programa);
-      avl.insert(programa);
-    }
-
-    // Realize operações com as árvores, se necessário
-    avl.topCrimesAnos2000();
-    System.out.println();
-    avl.topWarProgramsByVotes();
-    System.out.println();
-    avl.topMovies2022ByScore();
-    System.out.println();
-    avl.topTVShowsByScore();
-    System.out.println();
-    avl.topOldestPrograms();
-
-    // Inserindo um novo programa
-    ProgramaNetflix programaNovo = new ProgramaNetflix(
-        "tm987654",
-        "Inception",
-        "MOVIE",
-        "A skilled thief, Cobb, is entrusted with the task of stealing secrets from a person's mind. He must navigate through the layers of reality and dive into the dreams of his targets.",
-        2010,
-        "PG-13",
-        148,
-        Arrays.asList("action", "adventure", "sci-fi"),
-        Arrays.asList("US", "GB"),
-        0.0,
-        "tt1375666",
-        8.8,
-        2000000.0,
-        30.5,
-        8.7);
-
-    // Inserir o novo programa nas árvores
-    bst.insert(programaNovo);
-    avl.insert(programaNovo);
-
-    // Busca na BST
-    Integer[] count = { 0 };
-
-    // Realizar a busca e contar as comparações na BST
-    long startTime = System.nanoTime();
-    Node resultadoBuscaBST = bst.searchAndCountSteps(programaNovo, count);
-    long totalTime = System.nanoTime() - startTime;
-
-    if (resultadoBuscaBST != null) {
-      System.out.println("Achou o programa");
-    } else {
-      System.out.println("Não achou o programa");
-    }
-
-    System.out.println("Número de comparações na BST: " + count[0]);
-    System.out.println("O tempo de busca na BST é de " + totalTime + " in nano seconds");
-    System.out.println();
-
-    // Busca na AVL
-    count[0] = 0;
-
-    // Realizar a busca e contar as comparações na AVL
-    startTime = System.nanoTime();
-    Node resultadoBuscaAVL = avl.searchAndCountSteps(programaNovo, count);
-    totalTime = System.nanoTime() - startTime;
-
-    if (resultadoBuscaAVL != null) {
-      System.out.println("Achou o programa");
-    } else {
-      System.out.println("Não achou o programa.");
-    }
-
-    System.out.println("Número de comparações na AVL: " + count[0]);
-    System.out.println("O tempo de busca na AVL é de " + totalTime + " in nano seconds");
-
-    // Remover o programa das árvores
-    bst.remove("tm987654");
-    avl.remove("tm987654");
-
-    // Imprima novamente a altura das árvores após inserção e busca
-    System.out.println("Altura da árvore BST após inserção e busca: " + bst.getHeight());
-    System.out.println("Altura da árvore AVL após inserção e busca: " + avl.getHeight());
-
-    // Escrevendo o arquivo de saida
-
-    String novoArquivoCSV = "output.csv";
-
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(novoArquivoCSV))) {
-      // Escreve o cabeçalho no novo arquivo
-      writer.write("id,titulo,showType,descricao,releaseYear,ageCertification,runtime,generos," +
-          "productionCountries,temporadas,imdbId,imdbScore,imdbVotes,tmdbPopularity,tmdbScore\n");
-
-      // Obtém os programas da árvore AVL e escreve no arquivo
-      List<ProgramaNetflix> programasAVL = avl.inOrderTraversalList(); // Supondo que você tenha um método para
-                                                                       // percorrer a árvore
-      for (ProgramaNetflix programa : programasAVL) {
-        String linha = programa.toCSVString(); // Supondo que você tenha um método na classe ProgramaNetflix para obter
-                                               // uma representação CSV
-        writer.write(linha + "\n");
+    while (selection != 8) {
+      System.out.println("------------------------------ MENU ------------------------------");
+      System.out.println("1. Ler dados de arquivo");
+      System.out.println("2. Consultas realizadas");
+      System.out.println("3. Inserir programa");
+      System.out.println("4. Buscar programa");
+      System.out.println("5. Remover programa");
+      System.out.println("6. Exibir altura das árvores");
+      System.out.println("7. Salvar dados em arquivos");
+      System.out.println("8. Encerrar a aplicação");
+      System.out.print("\nDigite uma opção do menu: ");
+      try {
+        selection = sc.nextInt();
+        sc.nextLine();
+      } catch (Exception e) {
+        System.out.println("Seleção inválida!\n");
+        sc.nextLine();
+        continue;
       }
+      if (selection < 1 || selection > 8) {
+        System.out.println("Seleção inválida!\n");
+        continue;
+      }
+      if (selection == 1) {
+        // Ler o nome do arquivo de dados do usuário
+        System.out.print("Digite o nome do arquivo de dados: ");
+        String nomeArquivo = sc.nextLine();
 
-      System.out.println("Dados da AVL salvos em " + novoArquivoCSV);
-    } catch (IOException e) {
-      e.printStackTrace();
+        List<ProgramaNetflix> programas = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+          String linha;
+          br.readLine(); // Pule a primeira linha (cabeçalho)
+
+          while ((linha = br.readLine()) != null) {
+            boolean placeholder = true;
+            StringBuilder sb = new StringBuilder();
+            sb.append(linha.strip());
+
+            while (placeholder) { // Necessário para ignorar quebra de linha nas colunas description do dataset
+              try {
+                if (sb.toString().charAt(sb.length() - 1) != ',') {
+                  Integer.parseInt(String.valueOf(sb.toString().charAt(sb.length() - 1)));
+                }
+                placeholder = false;
+              } catch (Exception e) {
+                sb.append(br.readLine().strip());
+              }
+            }
+
+            String[] partes = sb.toString().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+            double temporadas;
+            if (partes[2].equalsIgnoreCase("MOVIE")) {
+              temporadas = 0; // Set temporadas to 0 for movies
+              partes[9] = "0";
+            } else {
+              temporadas = Double.parseDouble(partes[9]);
+            }
+
+            if (!containsEmpty(partes) && partes.length == 15) {
+              String id = partes[0];
+              String titulo = partes[1];
+              String showType = partes[2];
+              String descricao = partes[3];
+              int releaseYear = Integer.parseInt(partes[4]);
+              String ageCertification = partes[5];
+              int runtime = Integer.parseInt(partes[6]);
+
+              String partes7Tratada = partes[7].replaceAll("[\\[\\]\'\\s]", "");
+              List<String> generos = Arrays.asList(partes7Tratada.split(","));
+
+              String partes8Tratada = partes[8].replaceAll("[\\[\\]\'\\s]", "");
+              List<String> productionCountries = Arrays.asList(partes8Tratada.split(","));
+
+              String imdbId = partes[10];
+              double imdbScore = Double.parseDouble(partes[11]);
+              double imdbVotes = Double.parseDouble(partes[12]);
+              double tmdbPopularity = Double.parseDouble(partes[13]);
+              double tmdbScore = Double.parseDouble(partes[14]);
+
+              ProgramaNetflix programa = new ProgramaNetflix(id, titulo, showType, descricao, releaseYear,
+                  ageCertification, runtime, generos, productionCountries, temporadas, imdbId, imdbScore,
+                  imdbVotes, tmdbPopularity, tmdbScore);
+
+              programas.add(programa);
+
+            }
+          }
+          System.out.println("Arquivo lido com sucesso!\n");
+        } catch (FileNotFoundException e) {
+          System.out.println("Arquivo não encontrado. Verifique o caminho e o nome do arquivo e tente novamente.\n");
+        } catch (IOException e) {
+          System.out.println("Erro não esperado! Tente novamente.\n");
+        }
+        for (ProgramaNetflix programa : programas) {
+          bst.insert(programa);
+          avl.insert(programa);
+        }
+
+      } else if (selection == 2) {
+        if (avl.isEmpty() || bst.isEmpty()) {
+          System.out.println("Antes de visualizar as consultas, realize a leitura do arquivo.\n");
+        } else {
+          avl.topCrimesAnos2000();
+          avl.topWarProgramsByVotes();
+          avl.topMovies2022ByScore();
+          avl.topTVShowsByScore();
+          avl.topOldestPrograms();
+        }
+      } else if (selection == 3) {
+        if (avl.isEmpty() || bst.isEmpty()) {
+          System.out.println("Antes de inserir um novo programa, realize a leitura do arquivo.\n");
+        } else {
+          // Código para inserir um novo programa
+          System.out.print("Informe o ID: ");
+          String id = sc.nextLine();
+
+          System.out.print("Informe o título: ");
+          String titulo = sc.nextLine();
+
+          System.out.print("Informe o tipo (MOVIE/SHOW): ");
+          String tipo = sc.nextLine();
+
+          System.out.print("Informe a descrição: ");
+          String descricao = sc.nextLine();
+
+          System.out.print("Informe o ano de lançamento: ");
+          int anoLancamento = sc.nextInt();
+
+          System.out.print("Informe a classificação etária: ");
+          String classificacaoEtaria = sc.next();
+
+          System.out.print("Informe a duração em minutos: ");
+          int duracao = sc.nextInt();
+
+          System.out.print("Informe os gêneros (separados por vírgula): ");
+          sc.nextLine(); // Consumir a quebra de linha pendente
+          String[] generosArray = sc.nextLine().split(",");
+          List<String> generos = Arrays.asList(generosArray);
+
+          System.out.print("Informe os países de produção (separados por vírgula): ");
+          String[] paisesArray = sc.nextLine().split(",");
+          List<String> paises = Arrays.asList(paisesArray);
+
+          System.out.print("Informe o número de temporadas ");
+          int temporadas = sc.nextInt();
+
+          System.out.print("Informe o ID IMDb: ");
+          String idImdb = sc.next();
+
+          System.out.print("Informe a pontuação IMDb: ");
+          float pontuacaoImdb = sc.nextFloat();
+
+          System.out.print("Informe os votos no IMDB: ");
+          double imdb_votes = sc.nextDouble();
+
+          System.out.print("Informe a popularidade no TMDB: ");
+          float tmdb_popularity = sc.nextFloat();
+
+          System.out.print("Informe a pontuação no TMDB: ");
+          float tmdb_score = sc.nextFloat();
+
+          ProgramaNetflix programaNovo = new ProgramaNetflix(
+              id, titulo, tipo, descricao, anoLancamento, classificacaoEtaria, duracao,
+              generos, paises, temporadas, idImdb, pontuacaoImdb, imdb_votes, tmdb_popularity,
+              tmdb_score);
+
+          // Inserir o novo programa nas árvores
+          bst.insert(programaNovo);
+          avl.insert(programaNovo);
+          System.out.println("Programa inserido com sucesso!");
+        }
+      } else if (selection == 4) {
+        if (avl.isEmpty() || bst.isEmpty()) {
+          System.out.println("Antes de buscar um programa, realize a leitura do arquivo.\n");
+        } else {
+          System.out.print("Informe o ID que deseja buscar: ");
+          String id_buscado = sc.nextLine();
+          // Busca na BST
+          Integer[] count = { 0 };
+          long startTime = System.nanoTime();
+          bst.searchAndCountSteps(id_buscado, count);
+          long totalTime = System.nanoTime() - startTime;
+
+          System.out.println("\nNúmero de comparações na BST: " + count[0]);
+          System.out.println("O tempo de busca na BST é de " + totalTime + " in nano seconds");
+          System.out.println();
+
+          // Busca na AVL
+          count[0] = 0;
+          startTime = System.nanoTime();
+          Node resultadoBuscaAVL = avl.searchAndCountSteps(id_buscado, count);
+          totalTime = System.nanoTime() - startTime;
+          System.out.println(resultadoBuscaAVL);
+
+          System.out.println("Número de comparações na AVL: " + count[0]);
+          System.out.println("O tempo de busca na AVL é de " + totalTime + " in nano seconds");
+        }
+      } else if (selection == 5) {
+        if (avl.isEmpty() || bst.isEmpty()) {
+          System.out.println("Antes de remover um programa, realize a leitura do arquivo.\n");
+        } else {
+          System.out.print("Informe o ID que deseja remover: ");
+          String id_remover = sc.nextLine();
+          // Remover o programa das árvores
+          bst.remove(id_remover);
+          avl.remove(id_remover);
+        }
+
+      } else if (selection == 6) {
+        if (avl.isEmpty() || bst.isEmpty()) {
+          System.out.println("Antes de ver as alturas, realize a leitura do arquivo.\n");
+        } else {
+          // Imprima novamente a altura das árvores após inserção e busca
+          System.out.println("Altura da árvore BST: " + bst.getHeight());
+          System.out.println("Altura da árvore AVL: " + avl.getHeight());
+        }
+      } else if (selection == 7) {
+        if (avl.isEmpty() || bst.isEmpty()) {
+          System.out.println("Não é possível salvar! Primeiro leia o arquivo.\n");
+        } else {
+          // Escrevendo o arquivo de saida
+          System.out.print("Digite o nome do arquivo de gravação: ");
+          String novoArquivoCSV = sc.nextLine();
+
+          try (BufferedWriter writer = new BufferedWriter(new FileWriter(novoArquivoCSV))) {
+            // Escreve o cabeçalho no novo arquivo
+            writer.write("id,titulo,showType,descricao,releaseYear,ageCertification,runtime,generos," +
+                "productionCountries,temporadas,imdbId,imdbScore,imdbVotes,tmdbPopularity,tmdbScore\n");
+
+            // Obtém os programas da árvore AVL e escreve no arquivo
+            List<ProgramaNetflix> programasAVL = avl.inOrderTraversalList();
+            for (ProgramaNetflix programa : programasAVL) {
+              String linha = programa.toCSVString();
+              writer.write(linha + "\n");
+            }
+            System.out.println("Dados da AVL salvos em " + novoArquivoCSV);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      }
     }
-
-    // Libere a memória da BST
     bst = null;
-
-    // Libere a memória da AVL
     avl = null;
-
-    // Execute o coletor de lixo para liberar a memória imediatamente (opcional)
     System.gc();
-
+    System.out.println("Fim!");
+    sc.close();
   }
 }
