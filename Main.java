@@ -203,5 +203,14 @@ public class Main {
       e.printStackTrace();
     }
 
+    // Libere a memória da BST
+    bst = null;
+
+    // Libere a memória da AVL
+    avl = null;
+
+    // Execute o coletor de lixo para liberar a memória imediatamente (opcional)
+    System.gc();
+
   }
 }
