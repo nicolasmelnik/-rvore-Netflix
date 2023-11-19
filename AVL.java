@@ -381,4 +381,18 @@ public class AVL extends BST {
         System.out.println();
     }
 
+    public List<ProgramaNetflix> inOrderTraversalList() {
+        List<ProgramaNetflix> programas = new ArrayList<>();
+        inOrderTraversalList(root, programas);
+        return programas;
+    }
+
+    private void inOrderTraversalList(Node node, List<ProgramaNetflix> programas) {
+        if (node != null) {
+            inOrderTraversalList(node.getLeft(), programas);
+            programas.add(node.getData());
+            inOrderTraversalList(node.getRight(), programas);
+        }
+    }
+
 }

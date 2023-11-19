@@ -156,6 +156,13 @@ public class ProgramaNetflix {
         this.tmdbScore = tmdbScore;
     }
 
+    public String toCSVString() {
+        return String.format("%s,%s,%s,%s,%d,%s,%d,%s,%s,%.1f,%s,%.1f,%.1f,%.1f,%.1f",
+                id, titulo, showType, descricao, releaseYear, ageCertification, runtime,
+                String.join(",", generos), String.join(",", productionCountries),
+                temporadas, imdbId, imdbScore, imdbVotes, tmdbPopularity, tmdbScore);
+    }
+
     @Override
     public String toString() {
         return "Programa Netflix ID: " + id + "\n" +

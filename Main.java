@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -177,6 +179,29 @@ public class Main {
     // Imprima novamente a altura das árvores após inserção e busca
     System.out.println("Altura da árvore BST após inserção e busca: " + bst.getHeight());
     System.out.println("Altura da árvore AVL após inserção e busca: " + avl.getHeight());
+
+    // Escrevendo o arquivo de saida
+
+    String novoArquivoCSV = "output.csv";
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(novoArquivoCSV))) {
+      // Escreve o cabeçalho no novo arquivo
+      writer.write("id,titulo,showType,descricao,releaseYear,ageCertification,runtime,generos," +
+          "productionCountries,temporadas,imdbId,imdbScore,imdbVotes,tmdbPopularity,tmdbScore\n");
+
+      // Obtém os programas da árvore AVL e escreve no arquivo
+      List<ProgramaNetflix> programasAVL = avl.inOrderTraversalList(); // Supondo que você tenha um método para
+                                                                       // percorrer a árvore
+      for (ProgramaNetflix programa : programasAVL) {
+        String linha = programa.toCSVString(); // Supondo que você tenha um método na classe ProgramaNetflix para obter
+                                               // uma representação CSV
+        writer.write(linha + "\n");
+      }
+
+      System.out.println("Dados da AVL salvos em " + novoArquivoCSV);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
   }
 }
