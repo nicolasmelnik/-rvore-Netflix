@@ -11,12 +11,15 @@ public class AVL extends BST {
     public AVL() {
         super();
     }
+
     public AVL(Node root) {
         super(root);
     }
+
     public Node rotateLeft() {
         return rotateLeft(root);
     }
+
     private Node rotateLeft(Node root) {
         Node right = root.getRight();
         right.setParent(root.getParent());
@@ -41,9 +44,11 @@ public class AVL extends BST {
         right.updateBalanceFactor();
         return right;
     }
+
     public Node rotateRight() {
         return rotateRight(root);
     }
+
     private Node rotateRight(Node root) {
         Node left = root.getLeft();
         left.setParent(root.getParent());
@@ -68,20 +73,25 @@ public class AVL extends BST {
         left.updateBalanceFactor();
         return left;
     }
+
     public Node rotateLeftRight() {
         return rotateLeftRight(root);
     }
+
     private Node rotateLeftRight(Node root) {
         root.setLeft(rotateLeft(root.getLeft()));
         return rotateRight(root);
     }
+
     public Node rotateRightLeft() {
         return rotateRightLeft(root);
     }
+
     private Node rotateRightLeft(Node root) {
         root.setRight(rotateRight(root.getRight()));
         return rotateLeft(root);
     }
+
     public void balanceNode(Node node) {
         node.updateBalanceFactor();
         int balanceFactor = node.getBalanceFactor();
@@ -105,10 +115,12 @@ public class AVL extends BST {
             this.root = node;
         }
     }
+
     public void insert(ProgramaNetflix programa) {
         Node node = new Node(programa);
         insert(this.root, node);
     }
+
     private void insert(Node auxiliar, Node node) {
         if (auxiliar == null) {
             this.root = node;
@@ -131,15 +143,18 @@ public class AVL extends BST {
                     insert(auxiliar.getRight(), node);
                 }
             } else {
-                System.out.println("Não é possível inserir pois a chave '" + node.getData().getId() + "' já existe!");
+                System.out.println("Não é possível inserir pois a chave '" + node.getData().getId() + "' já existe!\n");
             }
         }
     }
+
     public void remove(String programaId) {
         remove(this.root, programaId);
     }
+
     private void remove(Node node, String programaId) {
         if (node == null) {
+            System.out.println("Programa a ser removido não encontrado na AVL!\n");
             return;
         } else {
             int compareResult = programaId.compareTo(node.getData().getId());
@@ -148,10 +163,12 @@ public class AVL extends BST {
             } else if (compareResult > 0) {
                 remove(node.getRight(), programaId);
             } else if (compareResult == 0) {
+                System.out.println("Programa removido da AVL com sucesso!\n");
                 removerNoEncontrado(node);
             }
         }
     }
+
     private void removerNoEncontrado(Node node) {
         Node r;
         if (node.getLeft() == null || node.getRight() == null) {
@@ -193,16 +210,19 @@ public class AVL extends BST {
         topCrimesAnos2000(root, topTitles);
         displayTopTitlesByScore(topTitles, "\nPrimeira Consulta - Top 10 programas de crime da década de 2000:");
     }
+
     private void topCrimesAnos2000(Node node, List<ProgramaNetflix> result) {
         if (node != null) {
             topCrimesAnos2000(node.getRight(), result);
             topCrimesAnos2000(node.getLeft(), result);
             ProgramaNetflix programa = node.getData();
-            if ((programa.getReleaseYear() >= 2000 && programa.getReleaseYear() < 2010) && programa.getGeneros().contains("crime")) {
+            if ((programa.getReleaseYear() >= 2000 && programa.getReleaseYear() < 2010)
+                    && programa.getGeneros().contains("crime")) {
                 result.add(programa);
             }
         }
     }
+
     private void displayTopTitlesByScore(List<ProgramaNetflix> titles, String message) {
         System.out.println(message);
         int numTitlesToDisplay = Math.min(titles.size(), 10);
@@ -214,7 +234,8 @@ public class AVL extends BST {
                     maiorNota = programa;
                 }
             }
-            System.out.println(i + 1 + "° -> " + maiorNota.getTitulo() + ", " + maiorNota.getReleaseYear() + " - Score: " + maiorNota.getImdbScore());
+            System.out.println(i + 1 + "° -> " + maiorNota.getTitulo() + ", " + maiorNota.getReleaseYear()
+                    + " - Score: " + maiorNota.getImdbScore());
             titles.remove(maiorNota);
         }
         System.out.println();
@@ -223,8 +244,10 @@ public class AVL extends BST {
     public void topWarProgramsByVotes() {
         List<ProgramaNetflix> topTitles = new ArrayList<>();
         topWarProgramsByVotes(root, topTitles);
-        displayTopTitlesByVotes(topTitles,"Segunda Consulta - Top 15 programas que tenham tema 'war' por votos no IMDb:");
+        displayTopTitlesByVotes(topTitles,
+                "Segunda Consulta - Top 15 programas que tenham tema 'war' por votos no IMDb:");
     }
+
     private void topWarProgramsByVotes(Node node, List<ProgramaNetflix> result) {
         if (node != null) {
             ProgramaNetflix programa = node.getData();
@@ -235,6 +258,7 @@ public class AVL extends BST {
             topWarProgramsByVotes(node.getLeft(), result);
         }
     }
+
     private void displayTopTitlesByVotes(List<ProgramaNetflix> titles, String message) {
         System.out.println(message);
         int numTitlesToDisplay = Math.min(titles.size(), 15);
@@ -245,7 +269,8 @@ public class AVL extends BST {
                     mostVoted = programa;
                 }
             }
-            System.out.println(i + 1 + "° -> " + mostVoted.getTitulo() + " - " + mostVoted.getGeneros() + " - IMDb Votes: " + mostVoted.getImdbVotes());
+            System.out.println(i + 1 + "° -> " + mostVoted.getTitulo() + " - " + mostVoted.getGeneros()
+                    + " - IMDb Votes: " + mostVoted.getImdbVotes());
             titles.remove(mostVoted);
         }
         System.out.println();
@@ -256,6 +281,7 @@ public class AVL extends BST {
         topMovies2022ByScore(root, topMovies);
         displayTopMoviesByScore(topMovies, "Terceira Consulta - Top 10 filmes de 2022 por pontuação no IMDb:");
     }
+
     private void topMovies2022ByScore(Node node, List<ProgramaNetflix> result) {
         if (node != null) {
             topMovies2022ByScore(node.getRight(), result);
@@ -267,6 +293,7 @@ public class AVL extends BST {
             topMovies2022ByScore(node.getLeft(), result);
         }
     }
+
     private void displayTopMoviesByScore(List<ProgramaNetflix> movies, String message) {
         System.out.println(message);
         int numMoviesToDisplay = Math.min(movies.size(), 10);
@@ -288,6 +315,7 @@ public class AVL extends BST {
         topTVShowsByScore(root, topTVShows);
         displayTopTVShowsByScore(topTVShows, "Quarta Consulta - Top 10 programas de TV por pontuação no IMDb:");
     }
+
     private void topTVShowsByScore(Node node, List<ProgramaNetflix> result) {
         if (node != null) {
             topTVShowsByScore(node.getRight(), result);
@@ -298,6 +326,7 @@ public class AVL extends BST {
             topTVShowsByScore(node.getLeft(), result);
         }
     }
+
     private void displayTopTVShowsByScore(List<ProgramaNetflix> tvShows, String message) {
         System.out.println(message);
         int numTVShowsToDisplay = Math.min(tvShows.size(), 10);
@@ -319,6 +348,7 @@ public class AVL extends BST {
         topOldestPrograms(root, oldestPrograms);
         displayTopOldestPrograms(oldestPrograms, "Quinta Consulta - Top 10 programas mais antigos disponíveis:");
     }
+
     private void topOldestPrograms(Node node, List<ProgramaNetflix> result) {
         if (node != null) {
             topOldestPrograms(node.getRight(), result);
@@ -327,6 +357,7 @@ public class AVL extends BST {
             topOldestPrograms(node.getLeft(), result);
         }
     }
+
     private void displayTopOldestPrograms(List<ProgramaNetflix> programs, String message) {
         System.out.println(message);
         int numProgramsToDisplay = Math.min(programs.size(), 10);
@@ -337,16 +368,19 @@ public class AVL extends BST {
                     oldestProgram = program;
                 }
             }
-            System.out.println(i + 1 + "° -> " + oldestProgram.getTitulo() + " - Ano de Lançamento: " + oldestProgram.getReleaseYear());
+            System.out.println(i + 1 + "° -> " + oldestProgram.getTitulo() + " - Ano de Lançamento: "
+                    + oldestProgram.getReleaseYear());
             programs.remove(oldestProgram);
         }
         System.out.println();
     }
+
     public List<ProgramaNetflix> inOrderTraversalList() {
         List<ProgramaNetflix> programas = new ArrayList<>();
         inOrderTraversalList(root, programas);
         return programas;
     }
+
     private void inOrderTraversalList(Node node, List<ProgramaNetflix> programas) {
         if (node != null) {
             inOrderTraversalList(node.getLeft(), programas);

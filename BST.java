@@ -84,8 +84,8 @@ public class BST extends BinaryTree {
 
     private Node remove(Node node, String programaId) {
         if (node == null) {
-            System.out.println("Programa a ser removido não encontrado!");
-            return node;
+            System.out.println("\nPrograma a ser removido não encontrado na BST!");
+            return null;
         }
         int compareResult = programaId.compareTo(node.getData().getId());
         if (compareResult < 0) {
@@ -101,6 +101,7 @@ public class BST extends BinaryTree {
             Node predecessor = findPredecessor(node.getData());
             node.setData(predecessor.getData());
             node.setLeft(remove(node.getLeft(), predecessor.getData().getId()));
+            System.out.println("\nPrograma removido da BST com sucesso!");
         }
         if (node.getLeft() != null) {
             node.getLeft().setParent(node);

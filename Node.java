@@ -145,7 +145,7 @@ public class Node {
 	@Override
 	public String toString() {
 		if (data != null) {
-			return "Programa buscado: " + data.getTitulo();
+			return data.getTitulo();
 		} else {
 			return "";
 		}

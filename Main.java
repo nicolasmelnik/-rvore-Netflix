@@ -3,13 +3,16 @@
 // Diego Oliveira Aluizio, TIA - 32247591.
 // Nicolas Fernandes Melnik, TIA - 32241720.
 
+// Referências:
+// Maneiras de medir o tempo em Java sem bibliotecas externas. Disponível em: https://thiagovespa.com.br/blog/2015/09/29/maneiras-de-medir-o-tempo-em-java-sem-bibliotecas-externas/.
+// Remove all non-alphanumeric characters from a String in Java. Disponível em: https://www.techiedelight.com/remove-non-alphanumeric-characters-from-string-java/#:~:text=Remove%20all%20non-alphanumeric%20characters%20from%20a%20String%20in,equivalent%20to%20%5B%5Ea-zA-Z_0-9%5D.%20...%202%202.%20Using%20Guava.
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -68,7 +71,6 @@ public class Main {
         System.out.print("Digite o nome do arquivo de dados: ");
         String nomeArquivo = sc.nextLine();
 
-        List<ProgramaNetflix> programas = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
           String linha;
           br.readLine(); // Pule a primeira linha (cabeçalho)
@@ -124,8 +126,8 @@ public class Main {
                   ageCertification, runtime, generos, productionCountries, temporadas, imdbId, imdbScore,
                   imdbVotes, tmdbPopularity, tmdbScore);
 
-              programas.add(programa);
-
+              bst.insert(programa);
+              avl.insert(programa);
             }
           }
           System.out.println("Arquivo lido com sucesso!\n");
@@ -134,11 +136,6 @@ public class Main {
         } catch (IOException e) {
           System.out.println("Erro não esperado! Tente novamente.\n");
         }
-        for (ProgramaNetflix programa : programas) {
-          bst.insert(programa);
-          avl.insert(programa);
-        }
-
       } else if (selection == 2) {
         if (avl.isEmpty() || bst.isEmpty()) {
           System.out.println("Antes de visualizar as consultas, realize a leitura do arquivo.\n");
@@ -205,6 +202,8 @@ public class Main {
           System.out.print("Informe a pontuação no TMDB: ");
           float tmdb_score = sc.nextFloat();
 
+          System.out.println();
+
           ProgramaNetflix programaNovo = new ProgramaNetflix(
               id, titulo, tipo, descricao, anoLancamento, classificacaoEtaria, duracao,
               generos, paises, temporadas, idImdb, pontuacaoImdb, imdb_votes, tmdb_popularity,
@@ -213,7 +212,6 @@ public class Main {
           // Inserir o novo programa nas árvores
           bst.insert(programaNovo);
           avl.insert(programaNovo);
-          System.out.println("Programa inserido com sucesso!");
         }
       } else if (selection == 4) {
         if (avl.isEmpty() || bst.isEmpty()) {
@@ -228,7 +226,7 @@ public class Main {
           long totalTime = System.nanoTime() - startTime;
 
           System.out.println("\nNúmero de comparações na BST: " + count[0]);
-          System.out.println("O tempo de busca na BST é de " + totalTime + " in nano seconds");
+          System.out.println("O tempo de busca na BST é de " + totalTime + " em nano segundos.");
           System.out.println();
 
           // Busca na AVL
@@ -236,10 +234,10 @@ public class Main {
           startTime = System.nanoTime();
           Node resultadoBuscaAVL = avl.searchAndCountSteps(id_buscado, count);
           totalTime = System.nanoTime() - startTime;
-          System.out.println(resultadoBuscaAVL);
+          System.out.println("Resultado da Busca na AVL: " + resultadoBuscaAVL);
 
           System.out.println("Número de comparações na AVL: " + count[0]);
-          System.out.println("O tempo de busca na AVL é de " + totalTime + " in nano seconds");
+          System.out.println("O tempo de busca na AVL é de " + totalTime + " em nano segundos.\n");
         }
       } else if (selection == 5) {
         if (avl.isEmpty() || bst.isEmpty()) {
@@ -247,6 +245,7 @@ public class Main {
         } else {
           System.out.print("Informe o ID que deseja remover: ");
           String id_remover = sc.nextLine();
+
           // Remover o programa das árvores
           bst.remove(id_remover);
           avl.remove(id_remover);
@@ -257,8 +256,9 @@ public class Main {
           System.out.println("Antes de ver as alturas, realize a leitura do arquivo.\n");
         } else {
           // Imprima novamente a altura das árvores após inserção e busca
-          System.out.println("Altura da árvore BST: " + bst.getHeight());
+          System.out.println("\nAltura da árvore BST: " + bst.getHeight());
           System.out.println("Altura da árvore AVL: " + avl.getHeight());
+          System.out.println();
         }
       } else if (selection == 7) {
         if (avl.isEmpty() || bst.isEmpty()) {
@@ -279,7 +279,8 @@ public class Main {
               String linha = programa.toCSVString();
               writer.write(linha + "\n");
             }
-            System.out.println("Dados da AVL salvos em " + novoArquivoCSV);
+            System.out.println("Dados da AVL salvos em: " + novoArquivoCSV);
+            System.out.println();
           } catch (IOException e) {
             e.printStackTrace();
           }
